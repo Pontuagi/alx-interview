@@ -4,6 +4,7 @@ This module contains one function
 The function return the Pascal's triangle
 '''
 
+
 def pascal_triangle(n):
     """
     A function that returns a list of integers representing the Pascals
@@ -20,4 +21,3 @@ def pascal_triangle(n):
         triangle.append(row)
 
     return triangle
-
