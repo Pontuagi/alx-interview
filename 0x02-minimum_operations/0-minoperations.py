@@ -17,15 +17,18 @@ def minOperations(n):
     Returns:
     - Integer, the minimum number of operations needed
     """
+    if not isinstance(n, int) or n <= 0:
+        return 0  # Handle non-positive integer inputs
+
     if n == 1:
         return 0
 
-    dp = [float('inf')] * (n + 1)
-    dp[1] = 0
+    dp = [0] * (n + 1)  # Initialize the array dynamically
 
     for i in range(2, n + 1):
-        dp[i] = i
+        dp[i] = float('inf')
         for j in range(1, i):
-            dp[i] = min(dp[i], dp[j] + dp[i - j] + 1)
+            if i % j == 0:
+                dp[i] = min(dp[i], dp[j] + (i // j))
 
-    return dp[n]
+    return dp[n] if dp[n] != float('inf') else 0
