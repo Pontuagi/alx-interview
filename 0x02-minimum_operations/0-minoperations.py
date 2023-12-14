@@ -17,11 +17,8 @@ def minOperations(n):
     Returns:
     - Integer, the minimum number of operations needed
     """
-    if not isinstance(n, int) or n <= 0:
+    if not isinstance(n, int) or n <= 1:
         return 0  # Handle non-positive integer inputs
-
-    if n == 1:
-        return 0
 
     dp = [0] * (n + 1)  # Initialize the array dynamically
 
