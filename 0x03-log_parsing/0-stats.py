@@ -3,8 +3,15 @@
 """
 This module contains a script that reads stdin line by line
 """
+
 import sys
 from collections import defaultdict
+
+STATUS_CODES = {'200': 0,
+                '301': 0, '400': 0,
+                '401': 0, '403': 0,
+                '404': 0, '405': 0,
+                '500': 0}
 
 
 def print_statistics(total_size, status_counts):
@@ -13,12 +20,13 @@ def print_statistics(total_size, status_counts):
 
     Args:
     - total_size (int): Total file size computed from the input.
-    - status_counts (dict): Dictionary containing counts of specific status
-    codes.
+    - status_counts (dict): Dictionary containing counts of specific
+    status codes.
     """
     print(f"File size: {total_size}")
     for code in sorted(status_counts.keys()):
-        print(f"{code}: {status_counts[code]}")
+        if status_counts[code] != 0:
+            print(f"{code}: {status_counts[code]}")
 
 
 def process_lines(lines):
@@ -30,8 +38,8 @@ def process_lines(lines):
 
     Returns:
     - total_size (int): Total file size computed from the input.
-    - status_counts (dict): Dictionary containing counts of specific status
-    codes.
+    - status_counts (dict): Dictionary containing counts of specific
+    status codes.
     """
     total_size = 0
     status_counts = defaultdict(int)
@@ -40,10 +48,10 @@ def process_lines(lines):
         parts = line.split()
         if len(parts) >= 7:
             try:
-                status_code = int(parts[-2])
+                status_code = parts[-2]
                 file_size = int(parts[-1])
                 total_size += file_size
-                if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
+                if status_code in STATUS_CODES:
                     status_counts[status_code] += 1
             except (ValueError, IndexError):
                 pass
@@ -51,14 +59,16 @@ def process_lines(lines):
     return total_size, status_counts
 
 
-lines = []
 try:
+    lines = []
     for i, line in enumerate(sys.stdin, start=1):
         lines.append(line.strip())
         if i % 10 == 0:
-            total_size, status_counts = process_lines(lines)
-            print_statistics(total_size, status_counts)
+            current_total_size, current_status_counts = process_lines(lines)
+            print_statistics(current_total_size, current_status_counts)
             lines = []
 except KeyboardInterrupt:
-    total_size, status_counts = process_lines(lines)
-    print_statistics(total_size, status_counts)
+    pass
+finally:
+    current_total_size, current_status_counts = process_lines(lines)
+    print_statistics(current_total_size, current_status_counts)
