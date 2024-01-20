@@ -18,13 +18,9 @@ def minOperations(n):
     - Integer, the minimum number of operations needed
     """
     if not isinstance(n, int) or n <= 1:
-        return 0  # Handle non-positive integer inputs
-    operations = [0] * (n + 2)
+        return 0
 
-    for i in range(2, n + 1):
-        if operations[i] == 0:
-            for j in range(i * 2, n + 1, i):
-                if operations[j] == 0:
-                    operations[j] = operations[i] + (j // i)
-
-    return operations[n]
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return i + minOperations(n // i)
+    return n
