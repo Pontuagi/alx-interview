@@ -18,6 +18,7 @@ def is_safe(board, row, col, N):
 
 
 def solve_nqueens(board, row, N):
+    """ Solve the board"""
     if row == N:
         print_solution(board, N)
         return
@@ -28,9 +29,11 @@ def solve_nqueens(board, row, N):
 
 
 def print_solution(board, N):
+    """ Print the solution method"""
+    solution = []
     for i in range(N):
-        print(board[i], end=' ')
-    print()
+        solution.append([i, board[i]])
+    print(solution)
 
 
 def main():
