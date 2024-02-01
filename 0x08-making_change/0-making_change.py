@@ -23,8 +23,9 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
+    inf = float('inf')
     coins.sort(reverse=True)
-    dp = [float('inf')] * (total + 1)
+    dp = [inf] * (total + 1)
 
     dp[0] = 0
 
@@ -32,7 +33,7 @@ def makeChange(coins, total):
         for i in range(coin, total + 1):
             dp[i] = min(dp[i], dp[i - coin] + 1)
 
-    if dp[total] == float('inf'):
+    if dp[total] == inf:
         return -1
 
     return dp[total]
