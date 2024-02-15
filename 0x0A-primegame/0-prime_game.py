@@ -16,51 +16,18 @@ def isWinner(x, nums):
     Returns "Maria" if Maria wins the most rounds, "Ben" if Ben wins
     the most rounds, and None if the winner cannot be determined.
     """
+    if (type(nums) is not list or not all([type(n) is int for n in nums]) or
+            not all([n > -1 for n in nums])):
+        return None
 
-    def is_prime(num):
-        """
-        Checks if a number is prime.
-
-        Args:
-        - num (int): The number to check.
-
-        Returns:
-        - bool: True if the number is prime, False otherwise.
-        """
-        if num < 2:
-            return False
-        for i in range(2, int(num**0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
-
-    def get_primes(num):
-        """
-        Generates a list of prime numbers up to a given number.
-
-        Args:
-        - num (int): The upper limit for generating prime numbers.
-
-        Returns:
-        - list: A list of prime numbers up to the given number.
-        """
-        primes = []
-        for i in range(2, num + 1):
-            if is_prime(i):
-                primes.append(i)
-        return primes
+    if type(x) is not int or x != len(nums):
+        return None
 
     maria_wins = 0
     ben_wins = 0
 
     for n in nums:
-        primes = get_primes(n)
-        prime_count = 0
-        for prime in primes:
-            if prime <= n:
-                prime_count += 1
-            else:
-                break
+        prime_count = sum(1 for i in range(2, n+1) if is_prime(i))
         if prime_count % 2 == 0:
             ben_wins += 1
         else:
@@ -72,3 +39,21 @@ def isWinner(x, nums):
         return "Ben"
     else:
         return None
+
+
+def is_prime(num):
+    """
+    Checks if a number is prime.
+
+    Args:
+    - num (int): The number to check.
+
+    Returns:
+    - bool: True if the number is prime, False otherwise.
+    """
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
