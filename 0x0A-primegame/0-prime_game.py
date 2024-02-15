@@ -50,33 +50,21 @@ def isWinner(x, nums):
                 primes.append(i)
         return primes
 
-    def can_win(primes, num):
-        """
-        Checks if a player can win the game given the available prime numbers
-        and the upper limit of consecutive integers.
-
-        Args:
-        - primes (list): A list of prime numbers.
-        - num (int): The upper limit of consecutive integers.
-
-        Returns:
-        - bool: True if the player can win, False otherwise.
-        """
-        for p in primes:
-            if p <= num:
-                return True
-        return False
-
     maria_wins = 0
     ben_wins = 0
 
-    for i in range(x):
-        n = nums[i]
+    for n in nums:
         primes = get_primes(n)
-        if can_win(primes, n):
-            maria_wins += 1
-        else:
+        prime_count = 0
+        for prime in primes:
+            if prime <= n:
+                prime_count += 1
+            else:
+                break
+        if prime_count % 2 == 0:
             ben_wins += 1
+        else:
+            maria_wins += 1
 
     if maria_wins > ben_wins:
         return "Maria"
